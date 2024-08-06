@@ -29,14 +29,22 @@
         private void InitializeComponent()
         {
             CarsTable = new DataGridView();
+            Id = new DataGridViewTextBoxColumn();
             LicensePlate = new DataGridViewTextBoxColumn();
             Brand = new DataGridViewTextBoxColumn();
             Model = new DataGridViewTextBoxColumn();
+            Engine = new DataGridViewTextBoxColumn();
             ManufacturedYear = new DataGridViewTextBoxColumn();
             AddCarButton = new Button();
             AppTabs = new TabControl();
             CarsTableTab = new TabPage();
+            EditCarButton = new Button();
+            CarsTableFilterButton = new Button();
+            LicPlatFilterLabel = new Label();
+            LicencePlateFilterBox = new TextBox();
             CarsFormTab = new TabPage();
+            CarFormBack = new Button();
+            SaveButton = new Button();
             ManYearBox = new NumericUpDown();
             EngineLabel = new Label();
             ManYearLabel = new Label();
@@ -48,7 +56,6 @@
             BrandBox = new TextBox();
             LicensePlateBox = new TextBox();
             tabPage3 = new TabPage();
-            SaveButton = new Button();
             ((System.ComponentModel.ISupportInitialize)CarsTable).BeginInit();
             AppTabs.SuspendLayout();
             CarsTableTab.SuspendLayout();
@@ -58,36 +65,58 @@
             // 
             // CarsTable
             // 
+            CarsTable.AllowUserToAddRows = false;
             CarsTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            CarsTable.Columns.AddRange(new DataGridViewColumn[] { LicensePlate, Brand, Model, ManufacturedYear });
-            CarsTable.Location = new Point(37, 122);
+            CarsTable.Columns.AddRange(new DataGridViewColumn[] { Id, LicensePlate, Brand, Model, Engine, ManufacturedYear });
+            CarsTable.Location = new Point(226, 74);
+            CarsTable.MultiSelect = false;
             CarsTable.Name = "CarsTable";
-            CarsTable.Size = new Size(444, 150);
+            CarsTable.ReadOnly = true;
+            CarsTable.RowHeadersVisible = false;
+            CarsTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            CarsTable.Size = new Size(510, 486);
             CarsTable.TabIndex = 0;
+            // 
+            // Id
+            // 
+            Id.HeaderText = "Id";
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            Id.Visible = false;
             // 
             // LicensePlate
             // 
             LicensePlate.HeaderText = "Nr rejestracyjny";
             LicensePlate.Name = "LicensePlate";
+            LicensePlate.ReadOnly = true;
             // 
             // Brand
             // 
             Brand.HeaderText = "Marka";
             Brand.Name = "Brand";
+            Brand.ReadOnly = true;
             // 
             // Model
             // 
             Model.HeaderText = "Model";
             Model.Name = "Model";
+            Model.ReadOnly = true;
+            // 
+            // Engine
+            // 
+            Engine.HeaderText = "Silnik";
+            Engine.Name = "Engine";
+            Engine.ReadOnly = true;
             // 
             // ManufacturedYear
             // 
             ManufacturedYear.HeaderText = "Rok pordukcji";
             ManufacturedYear.Name = "ManufacturedYear";
+            ManufacturedYear.ReadOnly = true;
             // 
             // AddCarButton
             // 
-            AddCarButton.Location = new Point(338, 21);
+            AddCarButton.Location = new Point(828, 74);
             AddCarButton.Name = "AddCarButton";
             AddCarButton.Size = new Size(161, 31);
             AddCarButton.TabIndex = 1;
@@ -100,26 +129,67 @@
             AppTabs.Controls.Add(CarsTableTab);
             AppTabs.Controls.Add(CarsFormTab);
             AppTabs.Controls.Add(tabPage3);
-            AppTabs.Location = new Point(66, 17);
+            AppTabs.Location = new Point(12, 12);
             AppTabs.Name = "AppTabs";
             AppTabs.SelectedIndex = 0;
-            AppTabs.Size = new Size(528, 321);
+            AppTabs.Size = new Size(1067, 613);
             AppTabs.TabIndex = 2;
             // 
             // CarsTableTab
             // 
+            CarsTableTab.Controls.Add(EditCarButton);
+            CarsTableTab.Controls.Add(CarsTableFilterButton);
+            CarsTableTab.Controls.Add(LicPlatFilterLabel);
+            CarsTableTab.Controls.Add(LicencePlateFilterBox);
             CarsTableTab.Controls.Add(CarsTable);
             CarsTableTab.Controls.Add(AddCarButton);
             CarsTableTab.Location = new Point(4, 24);
             CarsTableTab.Name = "CarsTableTab";
             CarsTableTab.Padding = new Padding(3);
-            CarsTableTab.Size = new Size(520, 293);
+            CarsTableTab.Size = new Size(1059, 585);
             CarsTableTab.TabIndex = 0;
             CarsTableTab.Text = "Pojazdy";
             CarsTableTab.UseVisualStyleBackColor = true;
             // 
+            // EditCarButton
+            // 
+            EditCarButton.Location = new Point(828, 122);
+            EditCarButton.Name = "EditCarButton";
+            EditCarButton.Size = new Size(161, 30);
+            EditCarButton.TabIndex = 5;
+            EditCarButton.Text = "Edytuj pojazd";
+            EditCarButton.UseVisualStyleBackColor = true;
+            EditCarButton.Click += EditCarButton_Click;
+            // 
+            // CarsTableFilterButton
+            // 
+            CarsTableFilterButton.Location = new Point(432, 33);
+            CarsTableFilterButton.Name = "CarsTableFilterButton";
+            CarsTableFilterButton.Size = new Size(75, 23);
+            CarsTableFilterButton.TabIndex = 4;
+            CarsTableFilterButton.Text = "Filtruj";
+            CarsTableFilterButton.UseVisualStyleBackColor = true;
+            CarsTableFilterButton.Click += CarsTableFilterButton_Click;
+            // 
+            // LicPlatFilterLabel
+            // 
+            LicPlatFilterLabel.AutoSize = true;
+            LicPlatFilterLabel.Location = new Point(267, 16);
+            LicPlatFilterLabel.Name = "LicPlatFilterLabel";
+            LicPlatFilterLabel.Size = new Size(89, 15);
+            LicPlatFilterLabel.TabIndex = 3;
+            LicPlatFilterLabel.Text = "Nr rejestracyjny";
+            // 
+            // LicencePlateFilterBox
+            // 
+            LicencePlateFilterBox.Location = new Point(267, 34);
+            LicencePlateFilterBox.Name = "LicencePlateFilterBox";
+            LicencePlateFilterBox.Size = new Size(150, 23);
+            LicencePlateFilterBox.TabIndex = 2;
+            // 
             // CarsFormTab
             // 
+            CarsFormTab.Controls.Add(CarFormBack);
             CarsFormTab.Controls.Add(SaveButton);
             CarsFormTab.Controls.Add(ManYearBox);
             CarsFormTab.Controls.Add(EngineLabel);
@@ -134,10 +204,30 @@
             CarsFormTab.Location = new Point(4, 24);
             CarsFormTab.Name = "CarsFormTab";
             CarsFormTab.Padding = new Padding(3);
-            CarsFormTab.Size = new Size(520, 293);
+            CarsFormTab.Size = new Size(1059, 585);
             CarsFormTab.TabIndex = 1;
             CarsFormTab.Text = "Formularz pojazdu";
             CarsFormTab.UseVisualStyleBackColor = true;
+            // 
+            // CarFormBack
+            // 
+            CarFormBack.Location = new Point(70, 236);
+            CarFormBack.Name = "CarFormBack";
+            CarFormBack.Size = new Size(75, 23);
+            CarFormBack.TabIndex = 12;
+            CarFormBack.Text = "Wróć";
+            CarFormBack.UseVisualStyleBackColor = true;
+            CarFormBack.Click += CarFormBack_Click;
+            // 
+            // SaveButton
+            // 
+            SaveButton.Location = new Point(393, 234);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(97, 27);
+            SaveButton.TabIndex = 11;
+            SaveButton.Text = "Zapisz";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += FormSubmitButton_Click;
             // 
             // ManYearBox
             // 
@@ -226,32 +316,23 @@
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(520, 293);
+            tabPage3.Size = new Size(1059, 585);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // SaveButton
-            // 
-            SaveButton.Location = new Point(393, 234);
-            SaveButton.Name = "SaveButton";
-            SaveButton.Size = new Size(97, 27);
-            SaveButton.TabIndex = 11;
-            SaveButton.Text = "Zapisz";
-            SaveButton.UseVisualStyleBackColor = true;
-            SaveButton.Click += AddSubmitButton_Click;
-            // 
-            // CarsTableForm
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1091, 637);
             Controls.Add(AppTabs);
-            Name = "CarsTableForm";
+            Name = "MainForm";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)CarsTable).EndInit();
             AppTabs.ResumeLayout(false);
             CarsTableTab.ResumeLayout(false);
+            CarsTableTab.PerformLayout();
             CarsFormTab.ResumeLayout(false);
             CarsFormTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ManYearBox).EndInit();
@@ -261,10 +342,6 @@
         #endregion
 
         private DataGridView CarsTable;
-        private DataGridViewTextBoxColumn LicensePlate;
-        private DataGridViewTextBoxColumn Brand;
-        private DataGridViewTextBoxColumn Model;
-        private DataGridViewTextBoxColumn ManufacturedYear;
         private Button AddCarButton;
         private TabControl AppTabs;
         private TabPage CarsTableTab;
@@ -281,5 +358,16 @@
         private Label EngineLabel;
         private NumericUpDown ManYearBox;
         private Button SaveButton;
+        private Button CarFormBack;
+        private Label LicPlatFilterLabel;
+        private TextBox LicencePlateFilterBox;
+        private Button CarsTableFilterButton;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn LicensePlate;
+        private DataGridViewTextBoxColumn Brand;
+        private DataGridViewTextBoxColumn Model;
+        private DataGridViewTextBoxColumn Engine;
+        private DataGridViewTextBoxColumn ManufacturedYear;
+        private Button EditCarButton;
     }
 }
