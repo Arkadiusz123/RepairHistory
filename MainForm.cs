@@ -10,7 +10,7 @@ namespace RepairHistory
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            //LoadData();
+            LoadData();
         }
     }
 }
