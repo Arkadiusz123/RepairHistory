@@ -8,7 +8,7 @@ namespace RepairHistory
     {
         private int? _editedCarId;
 
-        private async void LoadData()
+        private async Task LoadCarsTable()
         {
             CarsTable.Rows.Clear();
 
@@ -29,15 +29,43 @@ namespace RepairHistory
             }
         }
 
-        private void CarsTableFilterButton_Click(object sender, EventArgs e)
+        private async void CarsTableFilterButton_Click(object sender, EventArgs e)
         {
-            LoadData();
+            await LoadCarsTable();
         }
 
         private void AddCarButton_Click(object sender, EventArgs e)
         {
+            ClearCarForm();
             _editedCarId = null;
             AppTabs.SelectedTab = CarsFormTab;
+        }
+
+        private async void DeleteCarButton_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Czy na pewno chcesz usunąć?", "Usuń", MessageBoxButtons.YesNo);
+
+            if (confirmResult == DialogResult.No)
+                return;
+
+            var id = CarsTable.GetSelectedRowAttrib("Id");
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Nie zaznaczono pojazdu");
+                return;
+            }
+
+            var idNumber = int.Parse(id);
+
+            using (var db = new AppDbContext())
+            {
+                var service = new CarService(db);
+                var result = await service.DeleteCarAsync(idNumber);
+
+                if (!result.Success)
+                    MessageBox.Show(result.Message);
+            }
+            await LoadCarsTable();
         }
 
         private async void EditCarButton_Click(object sender, EventArgs e)
@@ -99,13 +127,26 @@ namespace RepairHistory
                     MessageBox.Show(result.Message);
                 }
                 else
-                {                   
-                    MessageBox.Show("Poprawnie zapisano");
-                    LoadData();
+                {                                    
                     AppTabs.SelectedTab = CarsTableTab;
                     ClearCarForm();
                 }                   
             }
+            await LoadCarsTable();
+        }
+
+        private async void ToRepairsButton_Click(object sender, EventArgs e)
+        {
+            var id = CarsTable.GetSelectedRowAttrib("Id");
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Nie zaznaczono pojazdu");
+                return;
+            }
+
+            var idNumber = int.Parse(id);
+            await LoadRepairsTable(idNumber);
+            AppTabs.SelectedTab = RepairHistoryTab;
         }
 
         private CarForm GetCarFromForm()

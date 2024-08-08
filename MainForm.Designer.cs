@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             CarsTable = new DataGridView();
             Id = new DataGridViewTextBoxColumn();
             LicensePlate = new DataGridViewTextBoxColumn();
@@ -38,6 +39,8 @@
             AddCarButton = new Button();
             AppTabs = new TabControl();
             CarsTableTab = new TabPage();
+            ToRepairsButton = new Button();
+            DeleteCarButton = new Button();
             EditCarButton = new Button();
             CarsTableFilterButton = new Button();
             LicPlatFilterLabel = new Label();
@@ -55,12 +58,48 @@
             ModelBox = new TextBox();
             BrandBox = new TextBox();
             LicensePlateBox = new TextBox();
-            tabPage3 = new TabPage();
+            RepairHistoryTab = new TabPage();
+            DeleteRepairButton = new Button();
+            EditRepairButton = new Button();
+            AddRepairButton = new Button();
+            RepairsTable = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            RepairFormTab = new TabPage();
+            RepFromNewPartSubButton = new Button();
+            label2 = new Label();
+            label1 = new Label();
+            RepFromNewPartDesc = new TextBox();
+            RepFromNewPartNr = new TextBox();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            RepFromPartsDropDown = new ComboBox();
+            RepFromTable = new DataGridView();
+            RepFromTableIdCol = new DataGridViewTextBoxColumn();
+            RepFromTableNumCol = new DataGridViewTextBoxColumn();
+            RepFromTableDescCol = new DataGridViewTextBoxColumn();
+            RepFromTableQuant = new DataGridViewTextBoxColumn();
+            DatePickerRepairForm = new DateTimePicker();
+            RepairFormBackButton = new Button();
+            RepairFormSaveButton = new Button();
+            MilagePickerRepairForm = new NumericUpDown();
+            MilageRepairFormLabel = new Label();
+            DescLabelRepFrom = new Label();
+            RepairFormLabelDate = new Label();
+            DescRepairFormBox = new TextBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
             ((System.ComponentModel.ISupportInitialize)CarsTable).BeginInit();
             AppTabs.SuspendLayout();
             CarsTableTab.SuspendLayout();
             CarsFormTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ManYearBox).BeginInit();
+            RepairHistoryTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)RepairsTable).BeginInit();
+            RepairFormTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)RepFromTable).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MilagePickerRepairForm).BeginInit();
             SuspendLayout();
             // 
             // CarsTable
@@ -116,7 +155,7 @@
             // 
             // AddCarButton
             // 
-            AddCarButton.Location = new Point(828, 74);
+            AddCarButton.Location = new Point(833, 144);
             AddCarButton.Name = "AddCarButton";
             AddCarButton.Size = new Size(161, 31);
             AddCarButton.TabIndex = 1;
@@ -128,7 +167,8 @@
             // 
             AppTabs.Controls.Add(CarsTableTab);
             AppTabs.Controls.Add(CarsFormTab);
-            AppTabs.Controls.Add(tabPage3);
+            AppTabs.Controls.Add(RepairHistoryTab);
+            AppTabs.Controls.Add(RepairFormTab);
             AppTabs.Location = new Point(12, 12);
             AppTabs.Name = "AppTabs";
             AppTabs.SelectedIndex = 0;
@@ -137,6 +177,8 @@
             // 
             // CarsTableTab
             // 
+            CarsTableTab.Controls.Add(ToRepairsButton);
+            CarsTableTab.Controls.Add(DeleteCarButton);
             CarsTableTab.Controls.Add(EditCarButton);
             CarsTableTab.Controls.Add(CarsTableFilterButton);
             CarsTableTab.Controls.Add(LicPlatFilterLabel);
@@ -151,9 +193,29 @@
             CarsTableTab.Text = "Pojazdy";
             CarsTableTab.UseVisualStyleBackColor = true;
             // 
+            // ToRepairsButton
+            // 
+            ToRepairsButton.Location = new Point(833, 86);
+            ToRepairsButton.Name = "ToRepairsButton";
+            ToRepairsButton.Size = new Size(161, 31);
+            ToRepairsButton.TabIndex = 7;
+            ToRepairsButton.Text = "Wyświetl historię napraw";
+            ToRepairsButton.UseVisualStyleBackColor = true;
+            ToRepairsButton.Click += ToRepairsButton_Click;
+            // 
+            // DeleteCarButton
+            // 
+            DeleteCarButton.Location = new Point(833, 240);
+            DeleteCarButton.Name = "DeleteCarButton";
+            DeleteCarButton.Size = new Size(161, 30);
+            DeleteCarButton.TabIndex = 6;
+            DeleteCarButton.Text = "Usuń pojazd";
+            DeleteCarButton.UseVisualStyleBackColor = true;
+            DeleteCarButton.Click += DeleteCarButton_Click;
+            // 
             // EditCarButton
             // 
-            EditCarButton.Location = new Point(828, 122);
+            EditCarButton.Location = new Point(833, 192);
             EditCarButton.Name = "EditCarButton";
             EditCarButton.Size = new Size(161, 30);
             EditCarButton.TabIndex = 5;
@@ -311,15 +373,306 @@
             LicensePlateBox.Size = new Size(166, 23);
             LicensePlateBox.TabIndex = 0;
             // 
-            // tabPage3
+            // RepairHistoryTab
             // 
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1059, 585);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "tabPage3";
-            tabPage3.UseVisualStyleBackColor = true;
+            RepairHistoryTab.Controls.Add(DeleteRepairButton);
+            RepairHistoryTab.Controls.Add(EditRepairButton);
+            RepairHistoryTab.Controls.Add(AddRepairButton);
+            RepairHistoryTab.Controls.Add(RepairsTable);
+            RepairHistoryTab.Location = new Point(4, 24);
+            RepairHistoryTab.Name = "RepairHistoryTab";
+            RepairHistoryTab.Padding = new Padding(3);
+            RepairHistoryTab.Size = new Size(1059, 585);
+            RepairHistoryTab.TabIndex = 2;
+            RepairHistoryTab.Text = "Historia napraw";
+            RepairHistoryTab.UseVisualStyleBackColor = true;
+            // 
+            // DeleteRepairButton
+            // 
+            DeleteRepairButton.Location = new Point(803, 212);
+            DeleteRepairButton.Name = "DeleteRepairButton";
+            DeleteRepairButton.Size = new Size(161, 30);
+            DeleteRepairButton.TabIndex = 10;
+            DeleteRepairButton.Text = "Usuń naprawę";
+            DeleteRepairButton.UseVisualStyleBackColor = true;
+            // 
+            // EditRepairButton
+            // 
+            EditRepairButton.Location = new Point(803, 164);
+            EditRepairButton.Name = "EditRepairButton";
+            EditRepairButton.Size = new Size(161, 30);
+            EditRepairButton.TabIndex = 9;
+            EditRepairButton.Text = "Edytuj naprawę";
+            EditRepairButton.UseVisualStyleBackColor = true;
+            // 
+            // AddRepairButton
+            // 
+            AddRepairButton.Location = new Point(803, 116);
+            AddRepairButton.Name = "AddRepairButton";
+            AddRepairButton.Size = new Size(161, 31);
+            AddRepairButton.TabIndex = 8;
+            AddRepairButton.Text = "Dodaj naprawę";
+            AddRepairButton.UseVisualStyleBackColor = true;
+            AddRepairButton.Click += AddRepairButton_Click;
+            // 
+            // RepairsTable
+            // 
+            RepairsTable.AllowUserToAddRows = false;
+            RepairsTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            RepairsTable.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
+            RepairsTable.Location = new Point(397, 47);
+            RepairsTable.MultiSelect = false;
+            RepairsTable.Name = "RepairsTable";
+            RepairsTable.ReadOnly = true;
+            RepairsTable.RowHeadersVisible = false;
+            RepairsTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            RepairsTable.Size = new Size(207, 486);
+            RepairsTable.TabIndex = 1;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Id";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Data";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Przebieg";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // RepairFormTab
+            // 
+            RepairFormTab.Controls.Add(RepFromNewPartSubButton);
+            RepairFormTab.Controls.Add(label2);
+            RepairFormTab.Controls.Add(label1);
+            RepairFormTab.Controls.Add(RepFromNewPartDesc);
+            RepairFormTab.Controls.Add(RepFromNewPartNr);
+            RepairFormTab.Controls.Add(label5);
+            RepairFormTab.Controls.Add(label4);
+            RepairFormTab.Controls.Add(label3);
+            RepairFormTab.Controls.Add(RepFromPartsDropDown);
+            RepairFormTab.Controls.Add(RepFromTable);
+            RepairFormTab.Controls.Add(DatePickerRepairForm);
+            RepairFormTab.Controls.Add(RepairFormBackButton);
+            RepairFormTab.Controls.Add(RepairFormSaveButton);
+            RepairFormTab.Controls.Add(MilagePickerRepairForm);
+            RepairFormTab.Controls.Add(MilageRepairFormLabel);
+            RepairFormTab.Controls.Add(DescLabelRepFrom);
+            RepairFormTab.Controls.Add(RepairFormLabelDate);
+            RepairFormTab.Controls.Add(DescRepairFormBox);
+            RepairFormTab.Location = new Point(4, 24);
+            RepairFormTab.Name = "RepairFormTab";
+            RepairFormTab.Padding = new Padding(3);
+            RepairFormTab.Size = new Size(1059, 585);
+            RepairFormTab.TabIndex = 3;
+            RepairFormTab.Text = "Formularz naprawy";
+            RepairFormTab.UseVisualStyleBackColor = true;
+            // 
+            // RepFromNewPartSubButton
+            // 
+            RepFromNewPartSubButton.Location = new Point(217, 193);
+            RepFromNewPartSubButton.Name = "RepFromNewPartSubButton";
+            RepFromNewPartSubButton.Size = new Size(97, 27);
+            RepFromNewPartSubButton.TabIndex = 35;
+            RepFromNewPartSubButton.Text = "Dodaj";
+            RepFromNewPartSubButton.UseVisualStyleBackColor = true;
+            RepFromNewPartSubButton.Click += RepFromNewPartSubButton_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(16, 281);
+            label2.Name = "label2";
+            label2.Size = new Size(31, 15);
+            label2.TabIndex = 34;
+            label2.Text = "Opis";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 238);
+            label1.Name = "label1";
+            label1.Size = new Size(78, 15);
+            label1.TabIndex = 33;
+            label1.Text = "Numer części";
+            // 
+            // RepFromNewPartDesc
+            // 
+            RepFromNewPartDesc.Location = new Point(129, 278);
+            RepFromNewPartDesc.Name = "RepFromNewPartDesc";
+            RepFromNewPartDesc.Size = new Size(129, 23);
+            RepFromNewPartDesc.TabIndex = 32;
+            // 
+            // RepFromNewPartNr
+            // 
+            RepFromNewPartNr.Location = new Point(129, 238);
+            RepFromNewPartNr.Name = "RepFromNewPartNr";
+            RepFromNewPartNr.Size = new Size(129, 23);
+            RepFromNewPartNr.TabIndex = 31;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(83, 199);
+            label5.Name = "label5";
+            label5.Size = new Size(101, 15);
+            label5.TabIndex = 30;
+            label5.Text = "Dodaj nową część";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(73, 365);
+            label4.Name = "label4";
+            label4.Size = new Size(111, 15);
+            label4.TabIndex = 29;
+            label4.Text = "Wybierz użytą część";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(516, 238);
+            label3.Name = "label3";
+            label3.Size = new Size(82, 15);
+            label3.TabIndex = 28;
+            label3.Text = "Dodane części";
+            // 
+            // RepFromPartsDropDown
+            // 
+            RepFromPartsDropDown.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            RepFromPartsDropDown.AutoCompleteSource = AutoCompleteSource.ListItems;
+            RepFromPartsDropDown.DisplayMember = "Value";
+            RepFromPartsDropDown.DropDownStyle = ComboBoxStyle.DropDownList;
+            RepFromPartsDropDown.FormattingEnabled = true;
+            RepFromPartsDropDown.Location = new Point(208, 362);
+            RepFromPartsDropDown.Name = "RepFromPartsDropDown";
+            RepFromPartsDropDown.Size = new Size(121, 23);
+            RepFromPartsDropDown.TabIndex = 27;
+            RepFromPartsDropDown.ValueMember = "Key";
+            RepFromPartsDropDown.SelectedIndexChanged += PartDropDown_SelectedItemChanged;
+            // 
+            // RepFromTable
+            // 
+            RepFromTable.AllowUserToAddRows = false;
+            RepFromTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            RepFromTable.Columns.AddRange(new DataGridViewColumn[] { RepFromTableIdCol, RepFromTableNumCol, RepFromTableDescCol, RepFromTableQuant });
+            RepFromTable.Location = new Point(393, 266);
+            RepFromTable.MultiSelect = false;
+            RepFromTable.Name = "RepFromTable";
+            RepFromTable.ReadOnly = false;
+            RepFromTable.RowHeadersVisible = false;
+            RepFromTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            RepFromTable.Size = new Size(308, 276);
+            RepFromTable.TabIndex = 26;
+            // 
+            // RepFromTableIdCol
+            // 
+            RepFromTableIdCol.HeaderText = "Id";
+            RepFromTableIdCol.Name = "Id";
+            RepFromTableIdCol.ReadOnly = true;
+            RepFromTableIdCol.Visible = false;
+            // 
+            // RepFromTableNumCol
+            // 
+            RepFromTableNumCol.HeaderText = "Numer";
+            RepFromTableNumCol.Name = "RepFromTableNumCol";
+            RepFromTableNumCol.ReadOnly = true;
+            // 
+            // RepFromTableDescCol
+            // 
+            RepFromTableDescCol.HeaderText = "Opis";
+            RepFromTableDescCol.Name = "RepFromTableDescCol";
+            RepFromTableDescCol.ReadOnly = true;
+            // 
+            // RepFromTableQuant
+            // 
+            RepFromTableQuant.HeaderText = "Podaj ilość";
+            RepFromTableQuant.Name = "RepFromTableQuant";
+            RepFromTableQuant.ReadOnly = false;
+            RepFromTable.EditingControlShowing += RepFromTable_EditingControlShowing;           
+            // 
+            // DatePickerRepairForm
+            // 
+            DatePickerRepairForm.Location = new Point(393, 31);
+            DatePickerRepairForm.Name = "DatePickerRepairForm";
+            DatePickerRepairForm.Size = new Size(200, 23);
+            DatePickerRepairForm.TabIndex = 25;
+            // 
+            // RepairFormBackButton
+            // 
+            RepairFormBackButton.Location = new Point(42, 453);
+            RepairFormBackButton.Name = "RepairFormBackButton";
+            RepairFormBackButton.Size = new Size(75, 23);
+            RepairFormBackButton.TabIndex = 24;
+            RepairFormBackButton.Text = "Wróć";
+            RepairFormBackButton.UseVisualStyleBackColor = true;
+            RepairFormBackButton.Click += RepairFormBackButton_Click;
+            // 
+            // RepairFormSaveButton
+            // 
+            RepairFormSaveButton.Location = new Point(899, 453);
+            RepairFormSaveButton.Name = "RepairFormSaveButton";
+            RepairFormSaveButton.Size = new Size(97, 27);
+            RepairFormSaveButton.TabIndex = 23;
+            RepairFormSaveButton.Text = "Zapisz";
+            RepairFormSaveButton.UseVisualStyleBackColor = true;
+            // 
+            // MilagePickerRepairForm
+            // 
+            MilagePickerRepairForm.Location = new Point(393, 66);
+            MilagePickerRepairForm.Maximum = new decimal(new int[] { 9000000, 0, 0, 0 });
+            MilagePickerRepairForm.Name = "MilagePickerRepairForm";
+            MilagePickerRepairForm.Size = new Size(200, 23);
+            MilagePickerRepairForm.TabIndex = 22;
+            MilagePickerRepairForm.Value = new decimal(new int[] { 100000, 0, 0, 0 });
+            // 
+            // MilageRepairFormLabel
+            // 
+            MilageRepairFormLabel.AutoSize = true;
+            MilageRepairFormLabel.Location = new Point(298, 68);
+            MilageRepairFormLabel.Name = "MilageRepairFormLabel";
+            MilageRepairFormLabel.Size = new Size(52, 15);
+            MilageRepairFormLabel.TabIndex = 19;
+            MilageRepairFormLabel.Text = "Przebieg";
+            // 
+            // DescLabelRepFrom
+            // 
+            DescLabelRepFrom.AutoSize = true;
+            DescLabelRepFrom.Location = new Point(298, 100);
+            DescLabelRepFrom.Name = "DescLabelRepFrom";
+            DescLabelRepFrom.Size = new Size(31, 15);
+            DescLabelRepFrom.TabIndex = 18;
+            DescLabelRepFrom.Text = "Opis";
+            // 
+            // RepairFormLabelDate
+            // 
+            RepairFormLabelDate.AutoSize = true;
+            RepairFormLabelDate.Location = new Point(298, 37);
+            RepairFormLabelDate.Name = "RepairFormLabelDate";
+            RepairFormLabelDate.Size = new Size(31, 15);
+            RepairFormLabelDate.TabIndex = 17;
+            RepairFormLabelDate.Text = "Data";
+            // 
+            // DescRepairFormBox
+            // 
+            DescRepairFormBox.Location = new Point(393, 100);
+            DescRepairFormBox.Multiline = true;
+            DescRepairFormBox.Name = "DescRepairFormBox";
+            DescRepairFormBox.Size = new Size(278, 114);
+            DescRepairFormBox.TabIndex = 15;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
             // 
             // MainForm
             // 
@@ -336,6 +689,12 @@
             CarsFormTab.ResumeLayout(false);
             CarsFormTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ManYearBox).EndInit();
+            RepairHistoryTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)RepairsTable).EndInit();
+            RepairFormTab.ResumeLayout(false);
+            RepairFormTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)RepFromTable).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MilagePickerRepairForm).EndInit();
             ResumeLayout(false);
         }
 
@@ -346,7 +705,7 @@
         private TabControl AppTabs;
         private TabPage CarsTableTab;
         private TabPage CarsFormTab;
-        private TabPage tabPage3;
+        private TabPage RepairHistoryTab;
         private Label ManYearLabel;
         private Label BrandLabel;
         private Label ModelLabel;
@@ -369,5 +728,38 @@
         private DataGridViewTextBoxColumn Engine;
         private DataGridViewTextBoxColumn ManufacturedYear;
         private Button EditCarButton;
+        private Button DeleteCarButton;
+        private Button ToRepairsButton;
+        private DataGridView RepairsTable;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private Button DeleteRepairButton;
+        private Button EditRepairButton;
+        private Button AddRepairButton;
+        private TabPage RepairFormTab;
+        private DateTimePicker DatePickerRepairForm;
+        private Button RepairFormBackButton;
+        private Button RepairFormSaveButton;
+        private NumericUpDown MilagePickerRepairForm;
+        private Label label1;
+        private Label label2;
+        private Label MilageRepairFormLabel;
+        private Label DescLabelRepFrom;
+        private Label RepairFormLabelDate;
+        private TextBox RepFromNewPartNr;
+        private TextBox DescRepairFormBox;
+        private ContextMenuStrip contextMenuStrip1;
+        private DataGridView RepFromTable;
+        private DataGridViewTextBoxColumn RepFromTableIdCol;
+        private DataGridViewTextBoxColumn RepFromTableNumCol;
+        private DataGridViewTextBoxColumn RepFromTableDescCol;
+        private DataGridViewTextBoxColumn RepFromTableQuant;
+        private ComboBox RepFromPartsDropDown;
+        private Label label4;
+        private Label label3;
+        private Label label5;
+        private TextBox RepFromNewPartDesc;
+        private Button RepFromNewPartSubButton;
     }
 }

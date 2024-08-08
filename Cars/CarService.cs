@@ -8,6 +8,7 @@ namespace RepairHistory.Cars
         Task<ValueResult<Car>> AddCarAsync(Car car);
         Task<ValueResult<Car>> EditCarAsync(Car car);
         Task<ValueResult<Car>> GetById(int id);
+        Task<Result> DeleteCarAsync(int id);
     }
 
     public class CarService : ICarService
@@ -55,6 +56,12 @@ namespace RepairHistory.Cars
                 return new ValueResult<Car>(false, "Nie znaleziono pojazdu");
 
             return new ValueResult<Car>(car, true);
+        }
+
+        public async Task<Result> DeleteCarAsync(int id)
+        {
+            var result = await _repository.DeleteCarAsync(id);
+            return result;
         }
     }
 }

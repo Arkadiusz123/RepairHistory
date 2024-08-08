@@ -7,10 +7,10 @@ namespace RepairHistory
             InitializeComponent();
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override async void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            LoadData();
+            await LoadCarsTable();
         }
     }
 }

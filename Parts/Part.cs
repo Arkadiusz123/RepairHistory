@@ -9,5 +9,10 @@ namespace RepairHistory.Parts
         public required string PartNumber { get; set; }
 
         public List<PartRepair> PartRepairs { get; set; } = [];
+
+        public override string ToString()
+        {
+            return $"{PartNumber} ({Description})";
+        }
     }
 }
