@@ -1,4 +1,5 @@
-﻿using RepairHistory.Database;
+﻿using RepairHistory.Cars;
+using RepairHistory.Database;
 using RepairHistory.Parts;
 using RepairHistory.Repairs;
 using RepairHistory.Shared;
@@ -10,20 +11,92 @@ namespace RepairHistory
     partial class MainForm
     {
         private int selectedCar = 0;
-        private int? repairIdToEdit;
+        private int? _repairIdToEdit;
         IList<Part> partsToFrom = [];
 
         private async void AddRepairButton_Click(object sender, EventArgs e)
         {
+            _repairIdToEdit = null;
             ClearRepairForm();
-            await PrepareReapirForm();
+            await PrepareRepairForm();
             AppTabs.SelectedTab = RepairFormTab;
+        }
+
+        private async void EditRepairButton_Click(object sender, EventArgs e)
+        {
+            var id = RepairsTable.GetSelectedRowAttrib("Id");
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Nie zaznaczono pojazdu");
+                return;
+            }
+
+            var idNumber = int.Parse(id);
+
+            using (var db = new AppDbContext())
+            {
+                var repairService = new RepairService(db);
+                var repairResult = await repairService.GetByIdAsync(idNumber);
+
+                if (!repairResult.Success) 
+                {
+                    MessageBox.Show(repairResult.Message);
+                    return;
+                }
+
+                PrepareEditRapirForm(repairResult.Value);
+                _repairIdToEdit = idNumber;
+                AppTabs.SelectedTab = RepairFormTab;
+            }
         }
 
         private void RepairFormBackButton_Click(object sender, EventArgs e)
         {
             ClearRepairForm();
             AppTabs.SelectedTab = RepairHistoryTab;
+        }
+
+        private async void RepairFormSaveButton_Click(object sender, EventArgs e)
+        {
+            var repairFormVm = RepairFormVm();
+            var validationResult = FormObjectValidator.ValidateObject(repairFormVm);
+            if (!validationResult.Result)
+            {
+                MessageBox.Show(validationResult.ErrorMessages);
+                return;
+            }
+
+            using (var db = new AppDbContext())
+            {
+                var repairService = new RepairService(db);
+                var carService = new CarService(db);
+
+                var carResult = await carService.GetById(repairFormVm.CarId);
+                if (!carResult.Success)
+                {
+                    MessageBox.Show(carResult.Message);
+                    return;
+                }
+
+                var repairModel = RepairMapper.FormVmToRepair(repairFormVm, carResult.Value);
+
+                ValueResult<Repair> result;
+                if (_repairIdToEdit == null)
+                    result = await repairService.AddRepairAsync(repairModel);
+                else
+                    result = await repairService.EditRepairAsync(repairModel);
+
+                if (!result.Success)
+                {
+                    MessageBox.Show(carResult.Message);
+                    return;
+                }
+
+                ClearRepairForm();
+                _repairIdToEdit = null;
+                await LoadRepairsTable(selectedCar);
+                AppTabs.SelectedTab = RepairHistoryTab;
+            }
         }
 
         private async void RepFromNewPartSubButton_Click(object sender, EventArgs e)
@@ -64,11 +137,11 @@ namespace RepairHistory
             using (var db = new AppDbContext())
             {
                 var service = new RepairService(db);
-                var repairsList = await service.GetTableList(carId);
+                var repairsList = await service.GetTableListAsync(carId);
 
                 foreach (var repair in repairsList)
                 {
-                    CarsTable.Rows.Add(repair.Id, repair.Date, repair.Mileage);
+                    RepairsTable.Rows.Add(repair.Id, repair.Date.ToShortDateString(), repair.Mileage);
                 }
             }
         }
@@ -95,7 +168,7 @@ namespace RepairHistory
             RepFromTable.Rows.Add(selectedPart.PartId, selectedPart.PartNumber, selectedPart.Description, 1);          
         }
 
-        private async Task PrepareReapirForm()
+        private async Task PrepareRepairForm()
         {
             partsToFrom.Clear();
             RepFromPartsDropDown.Items.Clear();
@@ -110,6 +183,21 @@ namespace RepairHistory
             foreach (var part in partsToFrom)
             {
                 RepFromPartsDropDown.Items.Add(new ComboboxItem { Key = part.PartId, Value = part.ToString() });
+            }
+        }
+
+        private async void PrepareEditRapirForm(Repair repair)
+        {
+            ClearRepairForm();
+            await PrepareRepairForm();
+
+            DatePickerRepairForm.Value = repair.Date;
+            MilagePickerRepairForm.Value = repair.Mileage;
+            DescRepairFormBox.Text = repair.Description;
+
+            foreach (var partRepair in repair.PartRepairs)
+            {
+                RepFromTable.Rows.Add(partRepair.PartId, partRepair.Part.PartNumber, partRepair.Part.Description, partRepair.PartQuantity);
             }
         }
 
@@ -138,6 +226,32 @@ namespace RepairHistory
                 Description = RepFromNewPartDesc.Text,
             };
             return partVm;
+        }
+
+        private RepairFormVm RepairFormVm()
+        {
+            var parts = new List<RepairFormVmPart>();
+
+            foreach (DataGridViewRow partRow in RepFromTable.Rows)
+            {
+                var newPart = new RepairFormVmPart
+                {
+                    PartId = (int)partRow.Cells["Id"].Value,
+                    PartQuantity = Convert.ToInt32(partRow.Cells["Quant"].Value)
+                };
+                parts.Add(newPart);
+            }
+
+            var repairVm = new RepairFormVm
+            {
+                Id = _repairIdToEdit,
+                CarId = selectedCar,
+                Date = DatePickerRepairForm.Value,
+                Description = DescRepairFormBox.Text,
+                Mileage = (int?)MilagePickerRepairForm.Value,
+                PartRepairs = parts
+            };
+            return repairVm;
         }
 
         private void RepFromTable_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

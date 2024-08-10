@@ -404,6 +404,7 @@
             EditRepairButton.TabIndex = 9;
             EditRepairButton.Text = "Edytuj naprawę";
             EditRepairButton.UseVisualStyleBackColor = true;
+            EditRepairButton.Click += EditRepairButton_Click;
             // 
             // AddRepairButton
             // 
@@ -432,20 +433,20 @@
             // dataGridViewTextBoxColumn1
             // 
             dataGridViewTextBoxColumn1.HeaderText = "Id";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.Name = "Id";
             dataGridViewTextBoxColumn1.ReadOnly = true;
             dataGridViewTextBoxColumn1.Visible = false;
             // 
             // dataGridViewTextBoxColumn2
             // 
             dataGridViewTextBoxColumn2.HeaderText = "Data";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.Name = "Data";
             dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn3
             // 
             dataGridViewTextBoxColumn3.HeaderText = "Przebieg";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.Name = "Mileage";
             dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // RepairFormTab
@@ -567,11 +568,11 @@
             RepFromTable.Location = new Point(393, 266);
             RepFromTable.MultiSelect = false;
             RepFromTable.Name = "RepFromTable";
-            RepFromTable.ReadOnly = false;
             RepFromTable.RowHeadersVisible = false;
             RepFromTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             RepFromTable.Size = new Size(308, 276);
             RepFromTable.TabIndex = 26;
+            RepFromTable.EditingControlShowing += RepFromTable_EditingControlShowing;
             // 
             // RepFromTableIdCol
             // 
@@ -595,9 +596,7 @@
             // RepFromTableQuant
             // 
             RepFromTableQuant.HeaderText = "Podaj ilość";
-            RepFromTableQuant.Name = "RepFromTableQuant";
-            RepFromTableQuant.ReadOnly = false;
-            RepFromTable.EditingControlShowing += RepFromTable_EditingControlShowing;           
+            RepFromTableQuant.Name = "Quant";
             // 
             // DatePickerRepairForm
             // 
@@ -624,6 +623,7 @@
             RepairFormSaveButton.TabIndex = 23;
             RepairFormSaveButton.Text = "Zapisz";
             RepairFormSaveButton.UseVisualStyleBackColor = true;
+            RepairFormSaveButton.Click += RepairFormSaveButton_Click;
             // 
             // MilagePickerRepairForm
             // 
