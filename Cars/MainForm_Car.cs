@@ -38,7 +38,7 @@ namespace RepairHistory
         {
             ClearCarForm();
             _editedCarId = null;
-            AppTabs.SelectedTab = CarsFormTab;
+            SwitchTab(CarsFormTab);
         }
 
         private async void DeleteCarButton_Click(object sender, EventArgs e)
@@ -88,14 +88,14 @@ namespace RepairHistory
                     MessageBox.Show(carResult.Message);
 
                 PrepareFormToEdit(carResult.Value);
-                AppTabs.SelectedTab = CarsFormTab;
+                SwitchTab(CarsFormTab);
             }
         }
 
         private void CarFormBack_Click(object sender, EventArgs e)
         {
             ClearCarForm();
-            AppTabs.SelectedTab = CarsTableTab;
+            SwitchTab(CarsTableTab);
         }
 
         private async void FormSubmitButton_Click(object sender, EventArgs e)
@@ -128,7 +128,7 @@ namespace RepairHistory
                 }
                 else
                 {                                    
-                    AppTabs.SelectedTab = CarsTableTab;
+                    SwitchTab(CarsTableTab);
                     ClearCarForm();
                 }                   
             }
@@ -146,7 +146,7 @@ namespace RepairHistory
 
             var idNumber = int.Parse(id);
             await LoadRepairsTable(idNumber);
-            AppTabs.SelectedTab = RepairHistoryTab;
+            SwitchTab(RepairHistoryTab);
         }
 
         private CarForm GetCarFromForm()

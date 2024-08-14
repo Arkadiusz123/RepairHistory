@@ -30,13 +30,13 @@ namespace RepairHistory
         {
             _selectedPartId = null;
             ClearPartForm();
-            AppTabs.SelectedTab = PartFormTab;
+            SwitchTab(PartFormTab);
         }
 
         private void BackToAllPartsBut_Click(object sender, EventArgs e)
         {
             _selectedPartId = null;
-            AppTabs.SelectedTab = PartsTableTab;
+            SwitchTab(PartsTableTab);
         }
 
         private async void EditPartButton_Click(object sender, EventArgs e)
@@ -68,7 +68,7 @@ namespace RepairHistory
             PartFormNrBox.Text = part.PartNumber;
             PartFormDescBox.Text = part.Description;
 
-            AppTabs.SelectedTab = PartFormTab;
+            SwitchTab(PartFormTab);
         }
 
         private async void PartFormSubmitBut_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace RepairHistory
                 ClearPartForm();
                 _selectedPartId = null;
                 await LoadAllPartsTable();
-                AppTabs.SelectedTab = PartsTableTab;
+                SwitchTab(PartsTableTab);
             }
         }
 

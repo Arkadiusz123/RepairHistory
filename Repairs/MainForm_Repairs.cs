@@ -17,7 +17,7 @@ namespace RepairHistory
             _repairIdToEdit = null;
             ClearRepairForm();
             await PrepareRepairForm();
-            AppTabs.SelectedTab = RepairFormTab;
+            SwitchTab(RepairFormTab);
         }
 
         private async void EditRepairButton_Click(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace RepairHistory
 
                 PrepareEditRapirForm(repairResult.Value);
                 _repairIdToEdit = idNumber;
-                AppTabs.SelectedTab = RepairFormTab;
+                SwitchTab(RepairFormTab);
             }
         }
 
@@ -81,12 +81,12 @@ namespace RepairHistory
         private void RepairFormBackButton_Click(object sender, EventArgs e)
         {
             ClearRepairForm();
-            AppTabs.SelectedTab = RepairHistoryTab;
+            SwitchTab(RepairHistoryTab);
         }
 
         private void BackFromRepDet_Click(object sender, EventArgs e)
         {
-            AppTabs.SelectedTab = RepairHistoryTab;
+            SwitchTab(RepairHistoryTab);
         }
 
         private async void RepairDetailsButton_Click(object sender, EventArgs e)
@@ -119,7 +119,7 @@ namespace RepairHistory
             PartsDisplay.Text = string.Join(Environment.NewLine, 
                 repair.PartRepairs.Select(x => $"{x.Part.PartNumber}({x.Part.Description}) x {x.PartQuantity}"));
 
-            AppTabs.SelectedTab = RepairDetailsTab;
+            SwitchTab(RepairDetailsTab);
         }
 
         private async void RepairFormSaveButton_Click(object sender, EventArgs e)
@@ -161,7 +161,7 @@ namespace RepairHistory
                 ClearRepairForm();
                 _repairIdToEdit = null;
                 await LoadRepairsTable(selectedCar);
-                AppTabs.SelectedTab = RepairHistoryTab;
+                SwitchTab(RepairHistoryTab);
             }
         }
 

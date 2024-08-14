@@ -207,7 +207,7 @@
             AppTabs.Name = "AppTabs";
             AppTabs.SelectedIndex = 0;
             AppTabs.Size = new Size(1067, 613);
-            AppTabs.TabIndex = 2;
+            AppTabs.TabIndex = 2;            
             // 
             // CarsTableTab
             // 
