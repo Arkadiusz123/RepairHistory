@@ -52,5 +52,16 @@ namespace RepairHistory.Repairs
 
             return new ValueResult<Repair>(repair, true);
         }
+
+        public async Task<Result> DeleteAsync(int id)
+        {
+            var repairExists = await _repository.ExistsWithIdAsync(id);
+
+            if (!repairExists)
+                return new Result(false, "Brak naprawy");
+
+            await _repository.DeleteAsync(id);
+            return new Result(true);
+        }
     }
 }

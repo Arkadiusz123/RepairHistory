@@ -11,6 +11,7 @@ namespace RepairHistory
         {
             base.OnLoad(e);
             await LoadCarsTable();
+            await LoadAllPartsTable();
         }
     }
 }

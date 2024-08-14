@@ -10,6 +10,7 @@ namespace RepairHistory.Repairs
         Task EditRepairAsync(Repair repair);
         Task<bool> ExistsWithIdAsync(int id);
         Task<Repair> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
     }
 
     public class RepairsRepository : IRepairsRepository
@@ -29,7 +30,7 @@ namespace RepairHistory.Repairs
                 .Where(x => x.CarId == carId)
                 .OrderByDescending(x => x.Date)
                 .ThenByDescending(x => x.RepairId)
-                .Select(x => new RepairTableVm 
+                .Select(x => new RepairTableVm
                 {
                     Id = x.RepairId,
                     Date = x.Date,
@@ -55,7 +56,7 @@ namespace RepairHistory.Repairs
 
         public async Task AddRepairAsync(Repair repair)
         {
-            _dbSet .Add(repair);
+            _dbSet.Add(repair);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -72,6 +73,13 @@ namespace RepairHistory.Repairs
             repairDb.PartRepairs.Clear();
             repairDb.PartRepairs = repair.PartRepairs;
 
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var repair = await _dbSet.SingleOrDefaultAsync(x => x.RepairId == id);
+            _dbSet.Remove(repair);
             await _dbContext.SaveChangesAsync();
         }
     }

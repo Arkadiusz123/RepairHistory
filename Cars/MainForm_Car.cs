@@ -48,7 +48,7 @@ namespace RepairHistory
             if (confirmResult == DialogResult.No)
                 return;
 
-            var id = CarsTable.GetSelectedRowAttrib("Id");
+            var id = CarsTable.GetSelectedRowAttrib("CarId");
             if (string.IsNullOrEmpty(id))
             {
                 MessageBox.Show("Nie zaznaczono pojazdu");
@@ -70,7 +70,7 @@ namespace RepairHistory
 
         private async void EditCarButton_Click(object sender, EventArgs e)
         {
-            var id = CarsTable.GetSelectedRowAttrib("Id");
+            var id = CarsTable.GetSelectedRowAttrib("CarId");
             if (string.IsNullOrEmpty(id))
             {
                 MessageBox.Show("Nie zaznaczono pojazdu");
@@ -137,7 +137,7 @@ namespace RepairHistory
 
         private async void ToRepairsButton_Click(object sender, EventArgs e)
         {
-            var id = CarsTable.GetSelectedRowAttrib("Id");
+            var id = CarsTable.GetSelectedRowAttrib("CarId");
             if (string.IsNullOrEmpty(id))
             {
                 MessageBox.Show("Nie zaznaczono pojazdu");

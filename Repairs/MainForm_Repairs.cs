@@ -3,8 +3,6 @@ using RepairHistory.Database;
 using RepairHistory.Parts;
 using RepairHistory.Repairs;
 using RepairHistory.Shared;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RepairHistory
 {
@@ -24,7 +22,7 @@ namespace RepairHistory
 
         private async void EditRepairButton_Click(object sender, EventArgs e)
         {
-            var id = RepairsTable.GetSelectedRowAttrib("Id");
+            var id = RepairsTable.GetSelectedRowAttrib("RepairId");
             if (string.IsNullOrEmpty(id))
             {
                 MessageBox.Show("Nie zaznaczono pojazdu");
@@ -50,10 +48,78 @@ namespace RepairHistory
             }
         }
 
+        private async void DeleteRepairButton_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Czy na pewno chcesz usunąć?", "Usuń", MessageBoxButtons.YesNo);
+
+            if (confirmResult == DialogResult.No)
+                return;
+
+            var id = RepairsTable.GetSelectedRowAttrib("RepairId");
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Nie zaznaczono naprawy");
+                return;
+            }
+
+            var idNumber = int.Parse(id);
+
+            using (var db = new AppDbContext())
+            {
+                var repairService = new RepairService(db);
+                var deleteResult = await repairService.DeleteAsync(idNumber);
+
+                if (!deleteResult.Success)
+                {
+                    MessageBox.Show(deleteResult.Message);
+                    return;
+                }
+                await LoadRepairsTable(selectedCar);
+            }
+        }
+
         private void RepairFormBackButton_Click(object sender, EventArgs e)
         {
             ClearRepairForm();
             AppTabs.SelectedTab = RepairHistoryTab;
+        }
+
+        private void BackFromRepDet_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = RepairHistoryTab;
+        }
+
+        private async void RepairDetailsButton_Click(object sender, EventArgs e)
+        {
+            var id = RepairsTable.GetSelectedRowAttrib("RepairId");
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Nie zaznaczono pojazdu");
+                return;
+            }
+
+            var idNumber = int.Parse(id);
+
+            Repair repair;
+            using (var db = new AppDbContext())
+            {
+                var service = new RepairService(db);
+                var result = await service.GetByIdAsync(idNumber);
+
+                if (!result.Success)
+                {
+                    MessageBox.Show(result.Message);
+                    return;
+                }
+                repair = result.Value;                                  
+            }
+            DateDisplay.Text = repair.Date.ToShortDateString();
+            MileageDisplay.Text = repair.Mileage.ToString();
+            DescDisplay.Text = repair.Description;
+            PartsDisplay.Text = string.Join(Environment.NewLine, 
+                repair.PartRepairs.Select(x => $"{x.Part.PartNumber}({x.Part.Description}) x {x.PartQuantity}"));
+
+            AppTabs.SelectedTab = RepairDetailsTab;
         }
 
         private async void RepairFormSaveButton_Click(object sender, EventArgs e)
@@ -115,7 +181,7 @@ namespace RepairHistory
             using (var db = new AppDbContext())
             {
                 var partService = new PartService(db);
-                var addResult = await partService.AddPart(newPart);
+                var addResult = await partService.AddPartAsync(newPart);
 
                 if (!addResult.Success)
                 {
@@ -127,6 +193,19 @@ namespace RepairHistory
             RepFromTable.Rows.Add(newPart.PartId, newPart.PartNumber, newPart.Description, 1);
             partsToFrom.Add(newPart);
             ClearRepairFormNewPart();
+        }
+
+        private void RepFormDelPartButton_Click(object sender, EventArgs e)
+        {
+            var rowIndex = RepFromTable.CurrentCell?.RowIndex;
+
+            if (rowIndex == null)
+            {
+                MessageBox.Show("Nie zaznaczono części");
+                return;
+            }
+
+            RepFromTable.Rows.RemoveAt(rowIndex.Value);
         }
 
         private async Task LoadRepairsTable(int carId)
@@ -156,7 +235,7 @@ namespace RepairHistory
 
             foreach (DataGridViewRow row in RepFromTable.Rows) 
             {
-                if ((int)row.Cells["Id"].Value == selectedItem.Key)
+                if ((int)row.Cells["RepPartId"].Value == selectedItem.Key)
                 {
                     MessageBox.Show("Część już znajduje się na liście użytych");
                     return;
@@ -176,7 +255,7 @@ namespace RepairHistory
             using (var db = new AppDbContext())
             {
                 var partService = new PartService(db);
-                var parts = await partService.GetParts();
+                var parts = await partService.GetPartsAsync();
                 partsToFrom = parts.ToList();
             }
 
@@ -236,9 +315,13 @@ namespace RepairHistory
             {
                 var newPart = new RepairFormVmPart
                 {
-                    PartId = (int)partRow.Cells["Id"].Value,
+                    PartId = (int)partRow.Cells["RepPartId"].Value,
                     PartQuantity = Convert.ToInt32(partRow.Cells["Quant"].Value)
                 };
+
+                if (newPart.PartQuantity < 1)
+                    continue;
+
                 parts.Add(newPart);
             }
 
