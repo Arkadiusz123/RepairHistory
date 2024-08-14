@@ -13,8 +13,8 @@ namespace RepairHistory.Repairs
         [Column(Order = 1)]
         public int RepairId { get; set; }
 
-        public required Part Part { get; set; }
-        public required Repair Repair { get; set; }
+        public Part Part { get; set; }
+        public Repair Repair { get; set; }
 
         public int PartQuantity { get; set; }
     }

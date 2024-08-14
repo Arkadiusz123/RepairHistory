@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepairHistory.Database;
+using RepairHistory.Shared;
 
 namespace RepairHistory.Cars
 {
@@ -7,6 +8,7 @@ namespace RepairHistory.Cars
     {
         Task AddCarAsync(Car car);
         Task EditCarAsync(Car car);
+        Task<Result> DeleteCarAsync(int id);
         Task<Car> GetByLicensePlateAsync(string licensePlate);
         Task<IEnumerable<Car>> GetList(CarsTableFilters filters);
         Task<Car> GetById(int id);
@@ -40,6 +42,19 @@ namespace RepairHistory.Cars
             carDb.Model = car.Model;           
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Result> DeleteCarAsync(int id)
+        {
+            var car = await _dbSet.SingleOrDefaultAsync(x => x.CarId == id);
+
+            if (car == null)
+                return new Result(false, "Nie znaleziono pojazdu");
+
+            _dbSet.Remove(car);
+            await _dbContext.SaveChangesAsync();
+
+            return new Result(true);
         }
 
         public async Task<Car> GetByLicensePlateAsync(string licensePlate)
