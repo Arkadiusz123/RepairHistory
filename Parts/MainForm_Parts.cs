@@ -17,13 +17,34 @@ namespace RepairHistory
             using (var db = new AppDbContext())
             {
                 var service = new PartService(db);
-                var partsList = await service.GetPartsAsync();
+                var partsList = await service.GetPartsAsync(GetPartsFilter());
 
                 foreach (var part in partsList)
                 {
                     AllPartsTable.Rows.Add(part.PartId, part.PartNumber, part.Description);
                 }
             }
+        }
+
+        private PartFilterModel GetPartsFilter()
+        {
+            var partFilter = new PartFilterModel
+            {
+                Description = PartDescFilterBox.Text?.ToLower(),
+                Number = PartNumFilterBox.Text?.ToLower()
+            };
+            return partFilter;
+        }
+
+        private void ClearPartsFilter()
+        {
+            PartDescFilterBox.Clear();
+            PartNumFilterBox.Clear();
+        }
+
+        private async void PartFilterButton_Click(object sender, EventArgs e)
+        {
+            await LoadAllPartsTable();
         }
 
         private void AddNewPartBut_Click(object sender, EventArgs e)
@@ -97,6 +118,7 @@ namespace RepairHistory
                     return;
                 }
 
+                ClearPartsFilter();
                 ClearPartForm();
                 _selectedPartId = null;
                 await LoadAllPartsTable();
