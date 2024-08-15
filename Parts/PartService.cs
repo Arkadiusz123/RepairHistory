@@ -5,7 +5,7 @@ namespace RepairHistory.Parts
 {
     public interface IPartService
     {
-        Task<IEnumerable<Part>> GetPartsAsync();
+        Task<IEnumerable<Part>> GetPartsAsync(PartFilterModel filter);
         Task<ValueResult<Part>> GetByIdAsync(int id);
         Task<ValueResult<Part>> AddPartAsync(Part part);
         Task<ValueResult<Part>> EditPartAsync(Part part);
@@ -21,9 +21,9 @@ namespace RepairHistory.Parts
             _partRepository = new PartRepository(dbContext);
         }
 
-        public async Task<IEnumerable<Part>> GetPartsAsync()
+        public async Task<IEnumerable<Part>> GetPartsAsync(PartFilterModel filter)
         {
-            var result = await _partRepository.GetListAsync();
+            var result = await _partRepository.GetListAsync(filter);
             return result;
         }
 

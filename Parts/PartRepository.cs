@@ -5,7 +5,7 @@ namespace RepairHistory.Parts
 {
     public interface IPartRepository
     {
-        Task<IEnumerable<Part>> GetListAsync();
+        Task<IEnumerable<Part>> GetListAsync(PartFilterModel filter);
         Task AddPartAsync(Part part);
         Task<Part> GetByPartNumberAsync(string partNumber);
         Task EditPartAsync(Part part);
@@ -24,9 +24,17 @@ namespace RepairHistory.Parts
             _dbSet = dbContext.Parts;
         }
 
-        public async Task<IEnumerable<Part>> GetListAsync()
+        public async Task<IEnumerable<Part>> GetListAsync(PartFilterModel filter)
         {
-            var result = await _dbSet.ToListAsync();
+            IQueryable<Part> query = _dbSet.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(filter.Number))
+                query = query.Where(x => x.PartNumber.ToLower().Contains(filter.Number));
+
+            if (!string.IsNullOrEmpty(filter.Description))
+                query = query.Where(x => x.Description.ToLower().Contains(filter.Description));
+
+            var result = await query.ToListAsync();
             return result;
         }
 

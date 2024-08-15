@@ -251,11 +251,12 @@ namespace RepairHistory
         {
             partsToFrom.Clear();
             RepFromPartsDropDown.Items.Clear();
+            ClearPartsFilter();
 
             using (var db = new AppDbContext())
             {
                 var partService = new PartService(db);
-                var parts = await partService.GetPartsAsync();
+                var parts = await partService.GetPartsAsync(GetPartsFilter());
                 partsToFrom = parts.ToList();
             }
 

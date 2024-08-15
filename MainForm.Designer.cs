@@ -102,6 +102,11 @@
             label8 = new Label();
             BackFromRepDet = new Button();
             PartsTableTab = new TabPage();
+            label13 = new Label();
+            PartNumFilterBox = new TextBox();
+            PartFilterButton = new Button();
+            label12 = new Label();
+            PartDescFilterBox = new TextBox();
             DeletePartButton = new Button();
             EditPartButton = new Button();
             AddNewPartBut = new Button();
@@ -207,7 +212,7 @@
             AppTabs.Name = "AppTabs";
             AppTabs.SelectedIndex = 0;
             AppTabs.Size = new Size(1067, 613);
-            AppTabs.TabIndex = 2;            
+            AppTabs.TabIndex = 2;
             // 
             // CarsTableTab
             // 
@@ -829,6 +834,11 @@
             // 
             // PartsTableTab
             // 
+            PartsTableTab.Controls.Add(label13);
+            PartsTableTab.Controls.Add(PartNumFilterBox);
+            PartsTableTab.Controls.Add(PartFilterButton);
+            PartsTableTab.Controls.Add(label12);
+            PartsTableTab.Controls.Add(PartDescFilterBox);
             PartsTableTab.Controls.Add(DeletePartButton);
             PartsTableTab.Controls.Add(EditPartButton);
             PartsTableTab.Controls.Add(AddNewPartBut);
@@ -840,6 +850,48 @@
             PartsTableTab.TabIndex = 5;
             PartsTableTab.Text = "Części";
             PartsTableTab.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(273, 13);
+            label13.Name = "label13";
+            label13.Size = new Size(78, 15);
+            label13.TabIndex = 20;
+            label13.Text = "Numer części";
+            // 
+            // PartNumFilterBox
+            // 
+            PartNumFilterBox.Location = new Point(273, 31);
+            PartNumFilterBox.Name = "PartNumFilterBox";
+            PartNumFilterBox.Size = new Size(150, 23);
+            PartNumFilterBox.TabIndex = 19;
+            // 
+            // PartFilterButton
+            // 
+            PartFilterButton.Location = new Point(614, 30);
+            PartFilterButton.Name = "PartFilterButton";
+            PartFilterButton.Size = new Size(75, 23);
+            PartFilterButton.TabIndex = 18;
+            PartFilterButton.Text = "Filtruj";
+            PartFilterButton.UseVisualStyleBackColor = true;
+            PartFilterButton.Click += this.PartFilterButton_Click;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(449, 13);
+            label12.Name = "label12";
+            label12.Size = new Size(31, 15);
+            label12.TabIndex = 17;
+            label12.Text = "Opis";
+            // 
+            // PartDescFilterBox
+            // 
+            PartDescFilterBox.Location = new Point(449, 31);
+            PartDescFilterBox.Name = "PartDescFilterBox";
+            PartDescFilterBox.Size = new Size(150, 23);
+            PartDescFilterBox.TabIndex = 16;
             // 
             // DeletePartButton
             // 
@@ -1002,6 +1054,7 @@
             RepairDetailsTab.ResumeLayout(false);
             RepairDetailsTab.PerformLayout();
             PartsTableTab.ResumeLayout(false);
+            PartsTableTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)AllPartsTable).EndInit();
             PartFormTab.ResumeLayout(false);
             PartFormTab.PerformLayout();
@@ -1098,5 +1151,10 @@
         private Label label11;
         private TextBox PartFormDescBox;
         private TextBox PartFormNrBox;
+        private Label label13;
+        private TextBox PartNumFilterBox;
+        private Button PartFilterButton;
+        private Label label12;
+        private TextBox PartDescFilterBox;
     }
 }
