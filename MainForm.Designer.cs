@@ -92,7 +92,7 @@
             RepairFormLabelDate = new Label();
             DescRepairFormBox = new TextBox();
             RepairDetailsTab = new TabPage();
-            PartsDisplay = new Label();
+            PartsDisplay = new TextBox();
             MileageDisplay = new Label();
             DescDisplay = new Label();
             DateDisplay = new Label();
@@ -213,6 +213,7 @@
             AppTabs.SelectedIndex = 0;
             AppTabs.Size = new Size(1067, 613);
             AppTabs.TabIndex = 2;
+            AppTabs.Selecting += ReloadSelectedTable;
             // 
             // CarsTableTab
             // 
@@ -752,11 +753,15 @@
             // 
             // PartsDisplay
             // 
-            PartsDisplay.AutoSize = true;
+            PartsDisplay.BackColor = Color.White;
+            PartsDisplay.BorderStyle = BorderStyle.None;
             PartsDisplay.Location = new Point(487, 260);
+            PartsDisplay.Multiline = true;
             PartsDisplay.Name = "PartsDisplay";
-            PartsDisplay.Size = new Size(70, 15);
+            PartsDisplay.ReadOnly = true;
+            PartsDisplay.Size = new Size(384, 247);
             PartsDisplay.TabIndex = 33;
+            PartsDisplay.TabStop = false;
             PartsDisplay.Text = "Użyte części";
             // 
             // MileageDisplay
@@ -875,7 +880,7 @@
             PartFilterButton.TabIndex = 18;
             PartFilterButton.Text = "Filtruj";
             PartFilterButton.UseVisualStyleBackColor = true;
-            PartFilterButton.Click += this.PartFilterButton_Click;
+            PartFilterButton.Click += PartFilterButton_Click;
             // 
             // label12
             // 
@@ -1128,7 +1133,7 @@
         private TabPage RepairDetailsTab;
         private Button BackFromRepDet;
         private Button RepairDetailsButton;
-        private Label PartsDisplay;
+        private TextBox PartsDisplay;
         private Label MileageDisplay;
         private Label DescDisplay;
         private Label DateDisplay;

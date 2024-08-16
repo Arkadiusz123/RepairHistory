@@ -37,5 +37,13 @@ namespace RepairHistory
                 AppTabs.Controls.Remove(tab);
             }
         }
+
+        private async void ReloadSelectedTable(object sender, TabControlCancelEventArgs e)
+        {
+            if (e.TabPage == PartsTableTab) 
+            {
+                await LoadAllPartsTable();
+            }
+        }
     }
 }
