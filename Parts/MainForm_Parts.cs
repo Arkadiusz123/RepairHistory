@@ -1,8 +1,6 @@
 ﻿using RepairHistory.Database;
 using RepairHistory.Parts;
-using RepairHistory.Repairs;
 using RepairHistory.Shared;
-using System.ComponentModel.DataAnnotations;
 
 namespace RepairHistory
 {

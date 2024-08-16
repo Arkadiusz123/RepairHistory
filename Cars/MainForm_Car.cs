@@ -24,7 +24,7 @@ namespace RepairHistory
 
                 foreach (var car in list) 
                 {
-                    CarsTable.Rows.Add(car.CarId, car.LicensePlate, car.Brand, car.Brand, car.Engine, car.ManufacturedYear);
+                    CarsTable.Rows.Add(car.CarId, car.LicensePlate, car.Brand, car.Model, car.Engine, car.ManufacturedYear);
                 }
             }
         }
