@@ -614,7 +614,7 @@
             RepFromPartsDropDown.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             RepFromPartsDropDown.AutoCompleteSource = AutoCompleteSource.ListItems;
             RepFromPartsDropDown.DisplayMember = "Value";
-            RepFromPartsDropDown.DropDownStyle = ComboBoxStyle.DropDownList;
+            RepFromPartsDropDown.DropDownStyle = ComboBoxStyle.DropDown;
             RepFromPartsDropDown.FormattingEnabled = true;
             RepFromPartsDropDown.Location = new Point(208, 362);
             RepFromPartsDropDown.Name = "RepFromPartsDropDown";
